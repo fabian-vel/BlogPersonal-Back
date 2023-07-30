@@ -1,7 +1,7 @@
 package com.blogPersonal.dao;
 
 import com.blogPersonal.dto.Publicacion;
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 import com.blogPersonal.mapper.PublicacionMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,31 +32,31 @@ public class PublicacionDAOImp implements PublicacionDAO {
     }
 
     @Override
-    public List<Publicacion> getAll() throws ExceptionDAO {
+    public List<Publicacion> getAll() throws CustomException {
         List<Publicacion> listPublicacion;
         try {
             listPublicacion = jdbcTemplate.query(SELECT, new PublicacionMapper());
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
         return listPublicacion;
     }
 
     @Override
-    public Publicacion getById(int idPublicacion) throws ExceptionDAO {
+    public Publicacion getById(int idPublicacion) throws CustomException {
         Publicacion publicacion = null;
         try {
             publicacion = jdbcTemplate.queryForObject(SELECTBYID, new PublicacionMapper(), idPublicacion);
         }catch (EmptyResultDataAccessException e){
 
         }catch (Exception ex){
-            throw new ExceptionDAO(ex);
+            throw new CustomException(ex);
         }
         return publicacion;
     }
 
     @Override
-    public void insert(Publicacion publicacion) throws ExceptionDAO {
+    public void insert(Publicacion publicacion) throws CustomException {
         try {
             jdbcTemplate.update(INSERT,
                     publicacion.getIdUsuario(),
@@ -66,12 +66,12 @@ public class PublicacionDAOImp implements PublicacionDAO {
                     publicacion.getFachaPublicacion()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 
     @Override
-    public void update(Publicacion publicacion) throws ExceptionDAO {
+    public void update(Publicacion publicacion) throws CustomException {
         try {
             jdbcTemplate.update(UPDATE,
                     publicacion.getIdUsuario(),
@@ -82,16 +82,16 @@ public class PublicacionDAOImp implements PublicacionDAO {
                     publicacion.getIdPublicacion()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 
     @Override
-    public void delete(int idPublicacion) throws ExceptionDAO {
+    public void delete(int idPublicacion) throws CustomException {
         try {
             jdbcTemplate.update(DELETE, idPublicacion);
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 }

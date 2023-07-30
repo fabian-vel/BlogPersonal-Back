@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Usuario {
-    private int idUsuario;
+    private int idusuario;
     private String nombre;
     private String correo;
-    private String rutaImagen;
+    private String rutaimagen;
 }

@@ -1,6 +1,6 @@
 package com.blogPersonal.dao;
 
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 import com.blogPersonal.mapper.ComentarioMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,31 +35,31 @@ public class ComentarioDAOImp implements ComentarioDAO {
     }
 
     @Override
-    public List<Comentario> getAll() throws ExceptionDAO {
+    public List<Comentario> getAll() throws CustomException {
         List<Comentario> listComentario;
         try {
             listComentario = jdbcTemplate.query(SELECT, new ComentarioMapper());
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
         return listComentario;
     }
 
     @Override
-    public Comentario getByPublication(int idPublicacion) throws ExceptionDAO {
-        Comentario comentario;
+    public Comentario getByPublication(int idPublicacion) throws CustomException {
+        Comentario comentario = new Comentario();
         try {
             comentario = jdbcTemplate.queryForObject(SELECTBYPUBLIC, new ComentarioMapper(), idPublicacion);
         }catch (EmptyResultDataAccessException e){
-            throw new ExceptionDAO(e);
+
         }catch (Exception ex){
-            throw new ExceptionDAO(ex);
+            throw new CustomException(ex);
         }
         return comentario;
     }
 
     @Override
-    public void insert(Comentario comentario) throws ExceptionDAO {
+    public void insert(Comentario comentario) throws CustomException {
         try {
             jdbcTemplate.update(INSERT,
                     comentario.getIdUsuario(),
@@ -68,12 +68,12 @@ public class ComentarioDAOImp implements ComentarioDAO {
                     comentario.getFechaComentario()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 
     @Override
-    public void update(Comentario comentario) throws ExceptionDAO {
+    public void update(Comentario comentario) throws CustomException {
         try {
             jdbcTemplate.update(UPDATE,
                     comentario.getIdUsuario(),
@@ -83,16 +83,16 @@ public class ComentarioDAOImp implements ComentarioDAO {
                     comentario.getIdComentario()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 
     @Override
-    public void delete(int idComentario) throws ExceptionDAO {
+    public void delete(int idComentario) throws CustomException {
         try {
             jdbcTemplate.update(DELETE, idComentario);
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 }

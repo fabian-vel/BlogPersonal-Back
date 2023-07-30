@@ -2,8 +2,8 @@ package com.blogPersonal.service;
 
 import com.blogPersonal.dao.CategoriaDAO;
 import com.blogPersonal.dto.Categoria;
-import com.blogPersonal.exception.ExceptionDAO;
-import com.blogPersonal.exception.ExceptionService;
+import com.blogPersonal.exception.CustomException;
+import com.blogPersonal.util.MessagesConstant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,27 +20,30 @@ public class CategoriaServiceImp implements CategoriaService {
     }
 
     @Override
-    public List<Categoria> findAll() throws ExceptionService {
+    public List<Categoria> findAll() throws CustomException {
         List<Categoria> categorias;
         try {
             categorias = categoriaDAO.getAll();
-        }catch (ExceptionDAO e){
-            throw new ExceptionService(e);
+        }catch (CustomException e){
+            throw e;
         }catch (Exception ex){
-            throw new ExceptionService(ex);
+            throw new CustomException(ex);
         }
         return categorias;
     }
 
     @Override
-    public Categoria findOne(int idCategoria) throws ExceptionService {
+    public Categoria findOne(int idCategoria) throws CustomException {
         Categoria categoria;
         try {
             categoria = categoriaDAO.getById(idCategoria);
-        }catch (ExceptionDAO e){
-            throw new ExceptionService(e);
+            if (categoria == null){
+                throw new CustomException(String.format(MessagesConstant.ENTITY_NOT_EXISTS, "Categoria"));
+            }
+        }catch (CustomException e){
+            throw e;
         }catch (Exception ex){
-            throw new ExceptionService(ex);
+            throw new CustomException(ex);
         }
         return categoria;
     }

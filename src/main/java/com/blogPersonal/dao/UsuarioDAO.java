@@ -1,18 +1,18 @@
 package com.blogPersonal.dao;
 
 import com.blogPersonal.dto.Usuario;
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 
 import java.util.List;
 
 public interface UsuarioDAO {
-    List<Usuario> getAll() throws ExceptionDAO;
+    List<Usuario> getAll() throws CustomException;
 
-    Usuario getById(int idUsuario) throws ExceptionDAO;
+    Usuario getById(int idUsuario) throws CustomException;
 
-    void insert(Usuario usuario) throws ExceptionDAO;
+    void insert(Usuario usuario) throws CustomException;
 
-    void update(Usuario usuario) throws ExceptionDAO;
+    void update(Usuario usuario) throws CustomException;
 
-    void delete(int idUsuario) throws ExceptionDAO;
+    void delete(int idUsuario) throws CustomException;
 }

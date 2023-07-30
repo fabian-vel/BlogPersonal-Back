@@ -1,7 +1,7 @@
 package com.blogPersonal.dao;
 
 import com.blogPersonal.dto.Categoria;
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 import com.blogPersonal.mapper.CategoriaMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,25 +23,25 @@ public class CategoriaDAOImp implements CategoriaDAO{
     }
 
     @Override
-    public List<Categoria> getAll() throws ExceptionDAO {
+    public List<Categoria> getAll() throws CustomException {
         List<Categoria> listCategoria;
         try {
             listCategoria = jdbcTemplate.query(SELECT, new CategoriaMapper());
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
         return listCategoria;
     }
 
     @Override
-    public Categoria getById(int idCategoria) throws ExceptionDAO {
+    public Categoria getById(int idCategoria) throws CustomException {
         Categoria categoria = null;
         try {
             categoria = jdbcTemplate.queryForObject(SELECTBYID, new CategoriaMapper(), idCategoria);
         } catch (EmptyResultDataAccessException ex) {
 
         } catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
         return categoria;
     }

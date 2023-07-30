@@ -1,12 +1,12 @@
 package com.blogPersonal.dao;
 
 import com.blogPersonal.dto.Categoria;
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 
 import java.util.List;
 
 public interface CategoriaDAO {
-    List<Categoria> getAll() throws ExceptionDAO;
+    List<Categoria> getAll() throws CustomException;
 
-    Categoria getById(int idCategoria) throws ExceptionDAO;
+    Categoria getById(int idCategoria) throws CustomException;
 }

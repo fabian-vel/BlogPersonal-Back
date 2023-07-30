@@ -1,7 +1,7 @@
 package com.blogPersonal.dao;
 
 import com.blogPersonal.dto.Usuario;
-import com.blogPersonal.exception.ExceptionDAO;
+import com.blogPersonal.exception.CustomException;
 import com.blogPersonal.mapper.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,63 +27,64 @@ public class UsuarioDAOImp implements UsuarioDAO{
     }
 
     @Override
-    public List<Usuario> getAll() throws ExceptionDAO {
+    public List<Usuario> getAll() throws CustomException {
         List<Usuario> listUsuarios;
         try {
             listUsuarios = jdbcTemplate.query(SELECT, new UsuarioMapper());
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
         return listUsuarios;
     }
 
     @Override
-    public Usuario getById(int idUsuario) throws ExceptionDAO {
+    public Usuario getById(int idUsuario) throws CustomException {
         Usuario usuario = null;
         try {
             usuario = jdbcTemplate.queryForObject(SELECTBYID, new UsuarioMapper(), idUsuario);
         }catch (EmptyResultDataAccessException e){
 
-        }catch (Exception ex){
-            throw new ExceptionDAO(ex);
+        }
+        catch (Exception ex){
+            throw new CustomException(ex);
         }
         return usuario;
     }
 
     @Override
-    public void insert(Usuario usuario) throws ExceptionDAO {
+    public void insert(Usuario usuario) throws CustomException {
         try {
             jdbcTemplate.update(INSERT,
                     usuario.getNombre(),
                     usuario.getCorreo(),
-                    usuario.getRutaImagen()
+                    usuario.getRutaimagen()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
 
     }
 
     @Override
-    public void update(Usuario usuario) throws ExceptionDAO {
+    public void update(Usuario usuario) throws CustomException {
         try {
             jdbcTemplate.update(UPDATE,
                     usuario.getNombre(),
                     usuario.getCorreo(),
-                    usuario.getRutaImagen(),
-                    usuario.getIdUsuario()
+                    usuario.getRutaimagen(),
+                    usuario.getIdusuario()
             );
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 
     @Override
-    public void delete(int idUsuario) throws ExceptionDAO {
+    public void delete(int idUsuario) throws CustomException {
         try {
             jdbcTemplate.update(DELETE, idUsuario);
         }catch (Exception e){
-            throw new ExceptionDAO(e);
+            throw new CustomException(e);
         }
     }
 }
